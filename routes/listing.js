@@ -22,9 +22,13 @@ router.get("/new",wrapAsync(async (req, res) => {
     res.render("listings/new.ejs");
 }));
 // show 
-router.get("/:id",wrapAsync(async (req, res) => {
+router.get("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id).populate("reviews");
+    if(!listing){
+        req.flash("error", "Listing you requested does not exist!");
+        return res.redirect("/listings");
+    };
     res.render("listings/show.ejs", { listing });
 }));
 // create
@@ -52,11 +56,13 @@ router.put("/:id",
     }
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+     req.flash("update"," Listing Updated!");
     res.redirect("/listings");
 }));
 // Delete 
 router.delete("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
+     req.flash("error"," Listing Deleted!");
     await Listing.findByIdAndDelete(id);
     res.redirect("/listings");
 }));
