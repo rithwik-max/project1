@@ -65,22 +65,25 @@ app.use((req,res,next)=>{
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     res.locals.update = req.flash("update");
+     res.locals.currUser = req.user;
     next();
 });
 
-app.use("/registerUser",async (req,res) => {
-    let fakeUser = new User ({
-        email:"max@gmail.com",
-        username:"max_001",
-    });
-    let newUser = await User.register (fakeUser, "helloworld");
-    res.send(newUser);
-});
+
+// app.use("/registerUser",async (req,res) => {
+//     let fakeUser = new User ({
+//         email:"max@gmail.com",
+//         username:"max_001",
+//     });
+//     let newUser = await User.register (fakeUser, "helloworld");
+//     res.send(newUser);
+// });
 
 
 app.use("/listings",listingsRouter);
 app.use("/listings/:id/reviews",reviewsRouter);
 app.use("/" ,userRouter);
+
 
 app.all(/.*/, (req, res, next) => {
     next(new ExpressError(404, "Page Not Found!"));
