@@ -1,87 +1,107 @@
-.body{
-   display: flex;
-   flex-direction: column;
-   min-height: 100vh;
+ body {
+    height: 100%;
+    margin: 0;
 }
-.container{
-   flex:1;
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
- .navbar{
+.container {
+    flex: 1;
+}
+
+.navbar {
     height: 3.2rem;
     background-color: white;
- }
- .fa-compass{
+}
+
+.fa-compass {
     color: rgb(205, 34, 34);
     font-size: 1.5rem;
- }
- .nav-link{
+}
+
+.nav-link {
     color: black !important;
- }
- .f-info-links a{
+}
+
+.f-info-links a {
     text-decoration: none;
     color: black;
- }
-  .f-info-links a:hover{
+}
+
+.f-info-links a:hover {
     text-decoration: underline;
- }
- .f-info-links ,.f-info-socials, .f-info-brand{
+}
+
+.f-info-links, .f-info-socials, .f-info-brand {
     width: 100%;
     display: flex;
-     justify-content: center;
+    justify-content: center;
     align-items: center;
- }
+}
 
- .f-info-socials i{
-   font-size: 1.2rem;
-   margin-right: 0.3rem;
- }
- 
- .f-info{
+.f-info-socials i {
+    font-size: 1.2rem;
+    margin-right: 0.3rem;
+}
+
+.f-info {
     text-align: center;
     background-color: grey;
     height: 6rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items:space-evenly;
- }
- .listing-card{
-   border: none !important;
-   margin-bottom: 2rem;
- }
- .card-img-top{
-   border-radius: 0.75rem !important;
-   width: 100% !important;
-   object-fit: cover !important;
- }
- .card-body{
-   padding: 0 !important;
- }
- .card-text{
-   color: black !important;
-   
- }
- .listing-links{
-   text-decoration: none;
- }
- .card-img-overlay{
-   opacity: 0;
- }
-  .card-img-overlay:hover{
-   opacity: 0.2;
-   background-color: rgb(125, 114, 114);
- }
-.show-img{
-   height: 30vh;
+    align-items: center;
 }
-.btns{
-   display: flex;
 
+.listing-card {
+    border: none !important;
+    margin-bottom: 2rem;
 }
-.show-card{
-   padding-left: 0;
-   padding-right: 0;
+
+.card-img-top {
+    border-radius: 0.75rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
 }
-.card{
-   border: 1cm;
+
+.card-body {
+    padding: 0 !important;
+}
+
+.card-text {
+    color: black !important;
+}
+
+.listing-links {
+    text-decoration: none;
+}
+
+.card-img-overlay {
+    opacity: 0;
+}
+
+.card-img-overlay:hover {
+    opacity: 0.2;
+    background-color: rgb(125, 114, 114);
+}
+
+.show-img {
+    height: 30vh;
+}
+
+.btns {
+    display: flex;
+}
+
+.show-card {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.card {
+    border: 1cm;
 }

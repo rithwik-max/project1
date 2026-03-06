@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/user.js");
 
 
 router.get("/signup",(req,res) => {
-    res.send("form");
+    res.render ("users/signup.ejs");
 });
+// router.get("/signup",(req,res) => {
+//     res.render("users/singup.ejs");
+// });
 
 
 
