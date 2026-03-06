@@ -1,15 +1,15 @@
-  <% layout("/layouts/boilerplate") %> <%= success  %>
+  <% layout("/layouts/boilerplate") %> 
   <div class="row mt-3">
     <div  class="col-8 offset-2">
       <h2><%= listing.title %></h2>
   <div class="card listing-card col-6 offset-2 show-card" >
     <img src="<%= listing.img ? listing.img : (listing.image && listing.image.url ? listing.image.url : '/css/placeholder.png') %>"  class="card-img-top show-img" alt="Listing_img">
     <div class="card-body">
-      <p class="card-text">
-          <%= listing.description %> <br>
-          &#8377;<%= listing.price %> <br>
-          <%= listing.location %> <br>
-          <%= listing.country %> <br>
+      <p class="card-text"> <b><%= listing.owner.username  %></b></p>
+      <p class="card-text"> <%= listing.description %> </p>
+      <p class="card-text">  &#8377;<%= listing.price %></p>
+      <p class="card-text"> <%= listing.location %></p>  
+      <p class="card-text"> <%= listing.country %> </p>
     </div>
   </div>
   <div class="btns">
@@ -18,6 +18,7 @@
       <button class="btn btn-dark offset-2">Delete</button>
   </form>
   </div>
+  <% } %>
   <br><br>
   <div class="col-8 offset-2 mb-3">
     <h4>Leave a Review</h4>
@@ -44,7 +45,9 @@
             <p class="card-text"><%= review.rating %> Stars</p>
         </div>
         <form class="mb-3" method="post" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+           <% if(currUser && currUser._id.equals(listing.owner._id)) { %>
           <button class="btn btn-sm btn-danger">Delete</button>
+          <% } %>
         </form>
       </div>
    <% } %>

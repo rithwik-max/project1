@@ -5,6 +5,7 @@ const {listingSchema, reviewSchema} = require("../schema.js");
 const ExpressError= require("../utils/ExpressError.js");
 const Listing = require("../models/listing");
 const { isLoggedIn  } = require("../middleware.js");
+const { isOwner  } = require("../middleware.js");
 //validate-listing
 const validatListing = (req,res,next) =>{
      let { error } = listingSchema.validate(req.body);
@@ -25,7 +26,9 @@ router.get("/new",  isLoggedIn  , async (req, res) => {
 // show 
 router.get("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
-    const listing = await Listing.findById(id).populate("reviews");
+    const listing = await Listing.findById(id)
+    .populate("reviews")
+    .populate("owner");
     if(!listing){
         req.flash("error", "Listing you requested does not exist!");
         return res.redirect("/listings"); 
@@ -37,6 +40,7 @@ router.post("/",
     validatListing,
     wrapAsync(async (req, res, next) => {
     const newListing=new Listing(req.body.listing);
+    newListing.owner = req.user._id;
     await newListing.save();
     req.flash("success","New Listing Created!");
     res.redirect("/listings");
@@ -54,10 +58,8 @@ router.get("/:id/edit",
 router.put("/:id",
     validatListing,
      isLoggedIn ,
+     isOwner,
     wrapAsync(async (req, res) => {
-     if(!req.body.listing){
-        throw new ExpressError (400, "sen vaild data for listing");
-    }
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
      req.flash("update"," Listing Updated!");
