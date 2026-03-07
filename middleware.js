@@ -29,9 +29,18 @@ module.exports.isOwner = async (req, res, next) => {
     }
     next();
 };
-
+//checkin author or not
+module.exports.isReviewAuthor = async (req, res, next) => {
+    let { id, reviewId } = req.params;
+    let review = await Review.findById(reviewId);
+    if (!review.author.equals(res.locals.currUser._id)) {
+        req.flash("error", "You did not create this review!");
+        return res.redirect(`/listings/${id}`);
+    }
+    next();
+};
 //validate-listing
-module.exports.validatListing = (req,res,next) =>{
+module.exports.validateListing = (req,res,next) =>{
      let { error } = listingSchema.validate(req.body);
     if(error){
         throw new ExpressError(400,error);
