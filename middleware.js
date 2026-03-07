@@ -1,3 +1,9 @@
+const Listing = require("./models/listing.js");
+const {listingSchema, reviewSchema} = require("./schema.js");
+const ExpressError= require("./utils/ExpressError.js");
+const wrapAsync= require("./utils/wrapAsync.js");
+const Review = require("./models/review.js");
+//signup to login
 module.exports.isLoggedIn = (req, res , next) => {
     if(!req.isAuthenticated()){
         req.session.redirectUrl = req.originalUrl;
@@ -5,7 +11,7 @@ module.exports.isLoggedIn = (req, res , next) => {
         return res.redirect("/login");
     }
     next();
-}
+};
 
 module.exports.saveRedirectUrl = (req, res, next) => {
     if (req.session.redirectUrl) {
@@ -13,7 +19,7 @@ module.exports.saveRedirectUrl = (req, res, next) => {
     }
     next();
 };
-
+//to check owner or  not
 module.exports.isOwner = async (req, res, next) => {
     let { id } = req.params;
     let listing = await Listing.findById(id);
@@ -23,3 +29,23 @@ module.exports.isOwner = async (req, res, next) => {
     }
     next();
 };
+
+//validate-listing
+module.exports.validatListing = (req,res,next) =>{
+     let { error } = listingSchema.validate(req.body);
+    if(error){
+        throw new ExpressError(400,error);
+    }else{
+        next();
+    }
+}
+
+//validate-review
+module.exports.validateReview = (req, res, next) => {
+    let { error } = reviewSchema.validate(req.body);
+    if (error) {
+        return next(new ExpressError(400, error.details.map(el => el.message).join(",")));
+    } else {
+        next();
+    }
+}

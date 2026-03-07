@@ -6,21 +6,17 @@ const ExpressError= require("../utils/ExpressError.js");
 const Listing = require("../models/listing");
 const { isLoggedIn  } = require("../middleware.js");
 const { isOwner  } = require("../middleware.js");
-//validate-listing
-const validatListing = (req,res,next) =>{
-     let { error } = listingSchema.validate(req.body);
-    if(error){
-        throw new ExpressError(400,error);
-    }else{
-        next();
-    }
-}
+const { validateListing } = require("../middleware.js");
+
 router.get("/", wrapAsync(async (req, res) => {
     const allListings = await Listing.find({});
     res.render("listings/index.ejs", { allListings });
 }));
 // new
-router.get("/new",  isLoggedIn  , async (req, res) => {
+router.get("/new", 
+     isLoggedIn  , 
+     isOwner ,
+     async (req, res) => {
     res.render("listings/new.ejs");
 });
 // show 
@@ -37,7 +33,7 @@ router.get("/:id", wrapAsync(async (req, res) => {
 }));
 // create
 router.post("/", 
-    validatListing,
+    validateListing,
     wrapAsync(async (req, res, next) => {
     const newListing=new Listing(req.body.listing);
     newListing.owner = req.user._id;
@@ -49,6 +45,7 @@ router.post("/",
 // edit
 router.get("/:id/edit", 
     isLoggedIn ,
+    isOwner,
     wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
@@ -66,7 +63,10 @@ router.put("/:id",
     res.redirect("/listings");
 }));
 // Delete 
-router.delete("/:id", isLoggedIn , wrapAsync(async (req, res) => {
+router.delete("/:id", 
+    isLoggedIn ,
+    isOwner ,
+     wrapAsync(async (req, res) => {
     let { id } = req.params;
      req.flash("error"," Listing Deleted!");
     await Listing.findByIdAndDelete(id);
