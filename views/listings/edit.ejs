@@ -2,7 +2,7 @@
 <div class="row">
   <div class="col-8 offset-2">
     <h2>Edit Listing</h2>
-    <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" novalidate class="needs-validation">
+    <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
       
       <div class="mb-3">
         <label for="title" class="form-label">Title</label>
@@ -22,11 +22,14 @@
       please enter a short description!
     </div>  
       </div>
-
       <div class="mb-3">
-        <label for="image" class="form-label">Image Link</label>
-        <input type="text" class="form-control" name="listing[image][url]" value="<%= listing.image.url %>" required>
-      </div>
+        <p>Original Listing image</p>
+         <img src="<%= listing.image.url %>" class="edit-img">
+       </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">upload listing image</label>
+            <input type="file" class="form-control" name="listing[image]">
+        </div>
 
       <div class="row">
         <div class="mb-3 col-4">

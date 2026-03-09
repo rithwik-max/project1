@@ -105,3 +105,14 @@ body {
 .card {
     border: 1cm;
 }
+.edit-img {
+  width: 300px;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+/* Add this to your style.css or a <style> tag in show.ejs */
+#map {
+    height: 400px;
+    width: 100%;
+}

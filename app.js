@@ -58,9 +58,9 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 // basic api
-app.get("/", (req, res) => {
-    res.send("welcome");
-});
+// app.get("/", (req, res) => {
+//     res.send("welcome");
+// });
 
 
 //flash
