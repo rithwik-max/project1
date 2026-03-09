@@ -4,9 +4,38 @@ const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 //index
-module.exports.index =async (req, res) => {
-    const allListings = await Listing.find({});
-    res.render("listings/index.ejs", { allListings });
+module.exports.index = async (req, res) => {
+    const { q, lat, lng, nearby } = req.query;
+    
+    let allListings;
+
+    if (nearby && lat && lng) {
+        // Find listings within 50km radius
+        allListings = await Listing.find({
+            geometry: {
+                $near: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [parseFloat(lng), parseFloat(lat)]
+                    },
+                    $maxDistance: 50000 // 50km in meters
+                }
+            }
+        });
+    } else if (q) {
+        allListings = await Listing.find({
+            $or: [
+                { title: { $regex: q, $options: "i" } },
+                { location: { $regex: q, $options: "i" } },
+                { country: { $regex: q, $options: "i" } },
+                { description: { $regex: q, $options: "i" } }
+            ]
+        });
+    } else {
+        allListings = await Listing.find({});
+    }
+    
+    res.render("listings/index.ejs", { allListings, searchQuery: q || "", nearby: nearby || false });
 };
 
 //new

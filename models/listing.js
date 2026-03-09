@@ -34,6 +34,10 @@ const listingSchema = new Schema({
       type: [Number],
       required: true
     }
+  },
+  category : {
+    type:String,
+    enum : ["1Star","2star","3star","4Star","5Star"]
   }
 });
 listingSchema.post("findOneAndDelete",async (listing) =>{
@@ -43,4 +47,5 @@ listingSchema.post("findOneAndDelete",async (listing) =>{
 });
 
 const Listing = mongoose.model("Listing", listingSchema);
+listingSchema.index({ geometry: "2dsphere" });
 module.exports = Listing;

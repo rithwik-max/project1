@@ -23,6 +23,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
+const searchRouter = require("./routes/search");
+app.use("/search", searchRouter);
 
 main()
     .then((res) => {
@@ -58,9 +60,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 // basic api
-// app.get("/", (req, res) => {
-//     res.send("welcome");
-// });
+
 
 
 //flash

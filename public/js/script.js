@@ -17,3 +17,22 @@
     }, false)
   })
 })()
+
+document.getElementById("nearbyBtn").addEventListener("click", () => {
+    if (!navigator.geolocation) {
+        alert("Geolocation is not supported by your browser");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            // Redirect with coordinates
+            window.location.href = `/listings?nearby=true&lat=${lat}&lng=${lng}`;
+        },
+        (error) => {
+            alert("Unable to get your location. Please allow location access.");
+        }
+    );
+});
