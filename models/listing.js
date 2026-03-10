@@ -24,21 +24,17 @@ const listingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref:"User",
   },
-    geometry : {
-    type: {
-      type: String, // Don't do `{ location: { type: String } }`
-      enum: ['Point'], // 'location.type' must be 'Point'
-      required: true
-    },
-    coordinates: {
-      type: [Number],
-      required: true
-    }
-  },
-  category : {
-    type:String,
-    enum : ["1Star","2star","3star","4Star","5Star"]
-  }
+    // geometry : {
+    // type: {
+    //   type: String, // Don't do `{ location: { type: String } }`
+    //   enum: ['Point'], // 'location.type' must be 'Point'
+    //   // required: true
+    // },
+    // coordinates: {
+    //   type: [Number],
+    //   // required: true
+    // }
+  
 });
 listingSchema.post("findOneAndDelete",async (listing) =>{
   if(listing){
@@ -47,5 +43,5 @@ listingSchema.post("findOneAndDelete",async (listing) =>{
 });
 
 const Listing = mongoose.model("Listing", listingSchema);
-listingSchema.index({ geometry: "2dsphere" });
+// listingSchema.index({ geometry: "2dsphere" });
 module.exports = Listing;

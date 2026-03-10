@@ -1,5 +1,7 @@
 const User = require("../models/user.js");
 
+const Listing = require("../models/listing"); // ← ADD THIS
+
 //signup-form
 module.exports.signupForm = (req,res) => {
     res.render ("users/signup.ejs");
@@ -45,4 +47,38 @@ module.exports.logout = (req,res,next) => {
         req.flash("success","you Logged out!");
         res.redirect("/listings");
     });
+};
+
+// show profile
+module.exports.profile = async (req, res) => {
+    const user = await User.findById(req.user._id);
+    const myListings = await Listing.find({ owner: req.user._id });
+    res.render("users/profile.ejs", { user, myListings });
+};
+
+// edit profile form
+module.exports.editProfile = async (req, res) => {
+    const user = await User.findById(req.user._id);
+    res.render("users/editProfile.ejs", { user });
+};
+
+// update profile
+module.exports.updateProfile = async (req, res) => {
+    const { bio, phone } = req.body;
+    const user = await User.findById(req.user._id);
+
+    user.bio = bio;
+    user.phone = phone;
+
+    // if new profile image uploaded
+    if (req.file) {
+        user.profileImage = {
+            url: req.file.path,
+            filename: req.file.filename
+        };
+    }
+
+    await user.save();
+    req.flash("success", "Profile updated!");
+    res.redirect("/profile");
 };

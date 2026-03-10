@@ -1,35 +1,41 @@
 const express = require("express");
+const multer = require("multer");
 const router = express.Router();
-const wrapAsync= require("../utils/wrapAsync.js");
+const wrapAsync = require("../utils/wrapAsync.js");
 const User = require("../models/user.js");
 const passport = require("passport");
-const { saveRedirectUrl } = require("../middleware.js");
+const { saveRedirectUrl, isLoggedIn } = require("../middleware.js");
 const userController = require("../controllers/user.js");
+const { storage } = require("../cloudConfig.js");
+const upload = multer({ storage });
+
 router
     .route("/signup")
-    //signup
     .get(userController.signupForm)
-    //signup-post
-    .post(
-        wrapAsync(userController.signupPost));
+    .post(wrapAsync(userController.signupPost));
 
 router
     .route("/login")
-    //login-form
     .get(userController.loginForm)
-    //login-post
     .post(
         saveRedirectUrl,
-        passport.authenticate("local",{ 
-            failureRedirect:"/login",   
-            failureFlash:true,
+        passport.authenticate("local", {
+            failureRedirect: "/login",
+            failureFlash: true,
         }),
         userController.loginPost,
     );
 
-//logout
-router.get("/logout",userController.logout);
+// logout
+router.get("/logout", userController.logout);
 
+// profile
+router.get("/profile", isLoggedIn, wrapAsync(userController.profile));
+
+// edit profile
+router.get("/profile/edit", isLoggedIn, wrapAsync(userController.editProfile));
+
+// update profile
+router.put("/profile", isLoggedIn, upload.single("profileImage"), wrapAsync(userController.updateProfile));
 
 module.exports = router;
-

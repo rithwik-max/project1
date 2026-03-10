@@ -1,0 +1,54 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card p-4 shadow-sm">
+                <h4 class="mb-4">Edit Profile</h4>
+
+                <form action="/profile?_method=PUT" method="POST" enctype="multipart/form-data">
+
+                    <!-- Profile Picture -->
+                    <div class="text-center mb-3">
+                        <img src="<%= user.profileImage.url %>" 
+                             class="rounded-circle mb-2" 
+                             style="width: 100px; height: 100px; object-fit: cover;">
+                        <div>
+                            <label class="form-label">Change Profile Picture</label>
+                            <input type="file" name="profileImage" class="form-control" accept="image/*">
+                        </div>
+                    </div>
+
+                    <!-- Username (readonly) -->
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control" value="<%= user.username %>" disabled>
+                    </div>
+
+                    <!-- Email (readonly) -->
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="text" class="form-control" value="<%= user.email %>" disabled>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="mb-3">
+                        <label class="form-label">Phone</label>
+                        <input type="text" name="phone" class="form-control" 
+                               value="<%= user.phone %>" placeholder="Enter phone number">
+                    </div>
+
+                    <!-- Bio -->
+                    <div class="mb-3">
+                        <label class="form-label">Bio</label>
+                        <textarea name="bio" class="form-control" rows="3" 
+                                  placeholder="Tell guests about yourself..."><%= user.bio %></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-danger w-100">Save Changes</button>
+                    <a href="/profile" class="btn btn-outline-secondary w-100 mt-2">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
