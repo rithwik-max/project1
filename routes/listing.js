@@ -21,28 +21,6 @@ router
     //create
     .post(validateListing,upload.single("listing[image]"),wrapAsync(listingController.create));
 
-    // Inside routes/listing.js (or wherever your main GET route is)
-router.get("/", async (req, res) => {
-    // 1. Grab the search term from the URL
-    const searchQuery = req.query.q; 
-    let allListings;
-
-    if (searchQuery) {
-        // 2. If there is a search term, filter the database.
-        // This uses MongoDB regex for a case-insensitive partial match on the 'title' field.
-        allListings = await Listing.find({ 
-            title: { $regex: searchQuery, $options: "i" } 
-        });
-        
-        // Note: If you want to search by location instead, change 'title' to 'location' or your equivalent schema key.
-    } else {
-        // 3. If no search term, return everything as usual
-        allListings = await Listing.find({});
-    }
-
-    // 4. Render the page with the filtered or full list
-    res.render("listings/index.ejs", { allListings });
-});
 // new
 router.get("/new", 
      isLoggedIn  , 

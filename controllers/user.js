@@ -1,6 +1,6 @@
 const User = require("../models/user.js");
 
-const Listing = require("../models/listing"); // ← ADD THIS
+const Listing = require("../models/listing"); // ← 
 
 //signup-form
 module.exports.signupForm = (req,res) => {

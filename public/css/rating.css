@@ -187,26 +187,19 @@
   .starability-basic > label::before, .starability-basic > label::after {
     display: none;
   }
-}
-/* --- Review Form (BIG STARS) --- */
+} 
 .starability-basic {
-  /* Keeps the 30px default size for the user to click on */
   transform: scale(1); 
   transform-origin: left;
   margin-bottom: 20px;
 }
 
-/* --- Review Display (SMALL STARS) --- */
 .starability-result {
-  /* Scales the stars down to 60% of original size (~18px) */
   transform: scale(0.6); 
   transform-origin: left top; 
-  
-  /* Remove extra space created by scaling */
   margin-bottom: -12px !important; 
 }
 
-/* Optional: tighten card spacing */
 .card-body h5.card-title {
   font-size: 1rem;
   margin-bottom: 0.5rem;

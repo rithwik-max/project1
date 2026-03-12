@@ -1,4 +1,4 @@
-<% layout("/layouts/boilerplate") %><%= success %>
+<% layout("/layouts/boilerplate") %>
     <h3>All Listings</h3>
 
 <% if (typeof searchQuery !== 'undefined' && searchQuery) { %>
@@ -10,9 +10,9 @@
         <h5>No listings found for "<%= searchQuery %>"</h5>
         <a href="/listings" class="btn btn-outline-danger mt-2">View all listings</a>
     </div>
-<% } else { %>
+<!-- <% } else { %>
   <% if (typeof nearby !== 'undefined' && nearby) { %>
-    <p><i class="fa-solid fa-location-dot"></i> Showing <b><%= allListings.length %></b> listings within 50km of your location</p>
+    <p><i class="fa-solid fa-location-dot"></i> Showing <b><%= allListings.length %></b> listings within 50km of your location</p> -->
 <% } %>
     <div class="row row-cols-lg-3 row-cols-lg-2 row-cols-lg-1">
         <% for(let listing of allListings) { %>
