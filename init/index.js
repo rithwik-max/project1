@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 const initData = require("./data.js"); 
 const Listing = require("../models/listing.js");
+require('dotenv').config();
 
-const DB_URL = "mongodb://127.0.0.1:27017/WANDERLUST";
+const DB_URL = process.env.ATLAS_DB;
 
 main().then(() => {
     console.log("connected to DB");
@@ -11,7 +12,10 @@ main().then(() => {
 });
 
 async function main() {
-    await mongoose.connect(DB_URL);
+    await mongoose.connect(DB_URL, {
+        tls: true,
+        tlsAllowInvalidCertificates: true,
+    });
 }
 
 const initDB = async () => {
